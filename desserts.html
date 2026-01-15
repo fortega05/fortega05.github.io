@@ -1,15 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
     <title>Desserts</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header>
-    <h1>Desserts</h1>
-</header>
+<header><h1>Desserts</h1></header>
 
 <nav>
     <a href="index.html">Home</a>
@@ -19,29 +16,20 @@
 </nav>
 
 <main>
-    <article>
-        <h2>Chocolate Chip Cookies</h2>
 
-        <h3>Ingredients</h3>
-        <ul>
-            <li>Flour</li>
-            <li>Sugar</li>
-            <li>Chocolate chips</li>
-            <li>Butter</li>
-        </ul>
+<h2>Add a Dessert</h2>
+<form class="recipeForm" data-category="desserts">
+    <input type="text" placeholder="Recipe Name" required>
+    <textarea placeholder="Ingredients" required></textarea>
+    <textarea placeholder="Instructions" required></textarea>
+    <button type="submit">Add Recipe</button>
+</form>
 
-        <h3>Instructions</h3>
-        <ol>
-            <li>Preheat oven to 350°F.</li>
-            <li>Mix ingredients.</li>
-            <li>Bake for 12–15 minutes.</li>
-        </ol>
-    </article>
+<h2>Recipes</h2>
+<div class="recipeList" data-category="desserts"></div>
+
 </main>
 
-<footer>
-    <p>© 2026 My Recipe Book</p>
-</footer>
-
+<script src="script.js"></script>
 </body>
 </html>
