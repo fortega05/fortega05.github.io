@@ -1,15 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
     <title>Entrées</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header>
-    <h1>Entrées</h1>
-</header>
+<header><h1>Entrées</h1></header>
 
 <nav>
     <a href="index.html">Home</a>
@@ -19,29 +16,20 @@
 </nav>
 
 <main>
-    <article>
-        <h2>Grilled Chicken</h2>
 
-        <h3>Ingredients</h3>
-        <ul>
-            <li>Chicken breast</li>
-            <li>Salt</li>
-            <li>Pepper</li>
-            <li>Olive oil</li>
-        </ul>
+<h2>Add an Entrée</h2>
+<form class="recipeForm" data-category="entrees">
+    <input type="text" placeholder="Recipe Name" required>
+    <textarea placeholder="Ingredients" required></textarea>
+    <textarea placeholder="Instructions" required></textarea>
+    <button type="submit">Add Recipe</button>
+</form>
 
-        <h3>Instructions</h3>
-        <ol>
-            <li>Season the chicken.</li>
-            <li>Heat the grill.</li>
-            <li>Cook until fully done.</li>
-        </ol>
-    </article>
+<h2>Recipes</h2>
+<div class="recipeList" data-category="entrees"></div>
+
 </main>
 
-<footer>
-    <p>© 2026 My Recipe Book</p>
-</footer>
-
+<script src="script.js"></script>
 </body>
 </html>
