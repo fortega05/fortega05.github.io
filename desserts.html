@@ -14,21 +14,26 @@
     <a href="appetizers.html">Appetizers</a>
     <a href="entrees.html">Entrées</a>
     <a href="desserts.html">Desserts</a>
-    <span id="loggedInInfo"></span>
 </nav>
 
 <main>
 
 <h2>Add a Dessert</h2>
 <form class="recipeForm" data-category="desserts">
-    <input type="text" placeholder="Recipe Name" required>
+    <input type="text" placeholder="Recipe Name" required />
     <textarea placeholder="Ingredients" required></textarea>
     <textarea placeholder="Instructions" required></textarea>
     <button type="submit">Add Recipe</button>
 </form>
 
 <h2>Recipes</h2>
-<div class="recipeList" data-category="desserts"></div>
+<div class="recipeList" data-category="desserts">
+    <article>
+        <h3>Chocolate Mousse</h3>
+        <p><strong>Ingredients:</strong> Dark chocolate, eggs, sugar, cream</p>
+        <p><strong>Instructions:</strong> Melt chocolate, fold in whipped eggs and cream, chill before serving.</p>
+    </article>
+</div>
 
 </main>
 
