@@ -1,19 +1,61 @@
+// Helper to get users from localStorage
+function getUsers() {
+    return JSON.parse(localStorage.getItem("users")) || [];
+}
+
+// Helper to save users to localStorage
+function saveUsers(users) {
+    localStorage.setItem("users", JSON.stringify(users));
+}
+
+// Show logged-in info in nav
+function showLoggedInUser() {
+    const loggedInInfo = document.getElementById("loggedInInfo");
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    if (loggedInInfo) {
+        if (currentUser) {
+            loggedInInfo.innerHTML = `
+                Logged in as <strong>${currentUser.username}</strong> 
+                <button id="logoutBtn">Logout</button>
+            `;
+            document.getElementById("logoutBtn").addEventListener("click", () => {
+                localStorage.removeItem("currentUser");
+                location.reload();
+            });
+        } else {
+            loggedInInfo.innerHTML = "";
+        }
+    }
+}
+
 // SIGN UP
 const signupForm = document.getElementById("signupForm");
 if (signupForm) {
     signupForm.addEventListener("submit", e => {
         e.preventDefault();
-        const username = document.getElementById("signupUsername").value;
 
-        let users = JSON.parse(localStorage.getItem("users")) || [];
-        if (users.includes(username)) {
-            document.getElementById("signupMessage").textContent = "User already exists";
+        const email = document.getElementById("signupEmail").value.trim().toLowerCase();
+        const username = document.getElementById("signupUsername").value.trim();
+        const password = document.getElementById("signupPassword").value;
+
+        if (!email || !username || !password) return;
+
+        let users = getUsers();
+
+        if (users.some(u => u.username.toLowerCase() === username.toLowerCase())) {
+            document.getElementById("signupMessage").textContent = "Username already exists";
+            return;
+        }
+        if (users.some(u => u.email === email)) {
+            document.getElementById("signupMessage").textContent = "Email already registered";
             return;
         }
 
-        users.push(username);
-        localStorage.setItem("users", JSON.stringify(users));
-        document.getElementById("signupMessage").textContent = "Account created!";
+        users.push({ email, username, password });
+        saveUsers(users);
+
+        document.getElementById("signupMessage").textContent = "Account created! You can now log in.";
+        signupForm.reset();
     });
 }
 
@@ -22,64 +64,29 @@ const loginForm = document.getElementById("loginForm");
 if (loginForm) {
     loginForm.addEventListener("submit", e => {
         e.preventDefault();
-        const username = document.getElementById("loginUsername").value;
-        const users = JSON.parse(localStorage.getItem("users")) || [];
 
-        if (!users.includes(username)) {
-            document.getElementById("loginMessage").textContent = "User not found";
+        const username = document.getElementById("loginUsername").value.trim();
+        const password = document.getElementById("loginPassword").value;
+
+        let users = getUsers();
+
+        const user = users.find(u => u.username.toLowerCase() === username.toLowerCase() && u.password === password);
+
+        if (!user) {
+            document.getElementById("loginMessage").textContent = "Invalid username or password";
             return;
         }
 
-        localStorage.setItem("currentUser", username);
-        document.getElementById("loginMessage").textContent = "Logged in!";
+        localStorage.setItem("currentUser", JSON.stringify({ username: user.username, email: user.email }));
+
+        document.getElementById("loginMessage").textContent = "Logged in successfully!";
+        loginForm.reset();
+
+        showLoggedInUser();
     });
 }
 
-// ADD + DISPLAY RECIPES
-document.querySelectorAll(".recipeForm").forEach(form => {
-    form.addEventListener("submit", e => {
-        e.preventDefault();
-        const user = localStorage.getItem("currentUser");
-        if (!user) return alert("Please login first");
-
-        const inputs = form.querySelectorAll("input, textarea");
-        const recipe = {
-            name: inputs[0].value,
-            ingredients: inputs[1].value,
-            instructions: inputs[2].value,
-            category: form.dataset.category,
-            author: user
-        };
-
-        let recipes = JSON.parse(localStorage.getItem("recipes")) || [];
-        recipes.push(recipe);
-        localStorage.setItem("recipes", JSON.stringify(recipes));
-
-        form.reset();
-        loadRecipes();
-    });
+// On page load, show logged-in user info
+document.addEventListener("DOMContentLoaded", () => {
+    showLoggedInUser();
 });
-
-function loadRecipes() {
-    const recipes = JSON.parse(localStorage.getItem("recipes")) || [];
-
-    document.querySelectorAll(".recipeList").forEach(list => {
-        const category = list.dataset.category;
-        list.innerHTML = "";
-
-        recipes
-            .filter(r => r.category === category)
-            .forEach(r => {
-                list.innerHTML += `
-                    <article>
-                        <h3>${r.name}</h3>
-                        <p><strong>Ingredients:</strong> ${r.ingredients}</p>
-                        <p><strong>Instructions:</strong> ${r.instructions}</p>
-                        <p><em>By ${r.author}</em></p>
-                    </article>
-                `;
-            });
-    });
-}
-
-loadRecipes();
