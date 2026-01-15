@@ -3,27 +3,28 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
     margin: 0;
-    padding: 0 20px;
-    background-color: #fff8f1;  /* Soft creamy off-white */
-    color: #4a403a;             /* Dark warm grayish brown */
+    padding: 0 15px; /* less horizontal padding for smaller screens */
+    background-color: #f0f4f8;  /* Very light cool blue */
+    color: #2f3e4d;             /* Dark slate blue-gray */
+    box-sizing: border-box;
 }
 
 /* Header styles */
 header {
-    background-color: #d95d39;  /* Warm burnt orange */
-    color: #fff3e6;             /* Soft cream */
-    padding: 30px 0;
+    background-color: #3a6ea5;  /* Medium steel blue */
+    color: #e6ebf1;             /* Soft very light blue-gray */
+    padding: 30px 15px;
     text-align: center;
     margin-bottom: 25px;
-    box-shadow: 0 4px 8px rgba(217, 93, 57, 0.4);
+    box-shadow: 0 4px 8px rgba(58, 110, 165, 0.4);
 }
 
 header h1 {
     margin: 0;
-    font-size: 3em;
+    font-size: 2.8em;
     letter-spacing: 1.5px;
     font-weight: 700;
-    text-shadow: 1px 1px 2px rgba(128, 64, 30, 0.5);
+    text-shadow: 1px 1px 2px rgba(15, 35, 60, 0.5);
 }
 
 header p {
@@ -35,44 +36,45 @@ header p {
 
 /* Navigation styles */
 nav {
-    background-color: #f7d6c1;  /* Light peach */
-    padding: 14px 0;
+    background-color: #d9e4f5;  /* Light soft blue */
+    padding: 14px 10px;
     margin-bottom: 35px;
-    border-bottom: 3px solid #d95d39;
+    border-bottom: 3px solid #3a6ea5;
     text-align: center;
     font-weight: 600;
-    font-size: 17px;
+    font-size: 16px;
 }
 
 nav a {
-    color: #7c4a31;             /* Deep brown */
+    color: #2f3e4d;             /* Dark slate blue-gray */
     text-decoration: none;
-    margin: 0 18px;
+    margin: 0 14px;
     transition: color 0.3s ease;
 }
 
 nav a:hover {
-    color: #d95d39;             /* Burnt orange on hover */
+    color: #1b2c44;             /* Darker blue on hover */
 }
 
 /* Main content */
 main {
-    max-width: 820px;
+    max-width: 760px;
     margin: 0 auto 50px auto;
+    padding: 0 10px;
 }
 
 /* Section headings */
 h1, h2, h3 {
-    color: #b24a2f;             /* Rich terra cotta */
+    color: #1b2c44;             /* Dark navy blue */
     font-weight: 700;
 }
 
 /* Forms */
 form {
-    background-color: #fff3e6;  /* Very light peach */
-    padding: 20px 25px;
+    background-color: #e9f0fb;  /* Very light blue */
+    padding: 20px 20px;
     border-radius: 8px;
-    box-shadow: 0 3px 10px rgba(210, 140, 110, 0.3);
+    box-shadow: 0 3px 10px rgba(50, 70, 110, 0.15);
     margin-bottom: 35px;
 }
 
@@ -84,7 +86,7 @@ form select {
     width: 100%;
     padding: 10px 12px;
     margin: 10px 0 20px 0;
-    border: 1.5px solid #d9b8a4; /* Soft muted brown */
+    border: 1.5px solid #a9bddb; /* Medium light blue-gray */
     border-radius: 6px;
     box-sizing: border-box;
     font-size: 15px;
@@ -99,7 +101,7 @@ form input[type="password"]:focus,
 form textarea:focus,
 form select:focus {
     outline: none;
-    border-color: #d95d39; /* Burnt orange focus */
+    border-color: #3a6ea5; /* Steel blue focus */
 }
 
 /* Textarea min height */
@@ -109,8 +111,8 @@ form textarea {
 
 /* Buttons */
 form button {
-    background-color: #d95d39;
-    color: #fff3e6;
+    background-color: #3a6ea5;
+    color: #e6ebf1;
     border: none;
     padding: 12px 22px;
     border-radius: 6px;
@@ -122,39 +124,57 @@ form button {
 }
 
 form button:hover {
-    background-color: #b24a2f;
+    background-color: #1b2c44;
 }
 
 /* Recipe list */
 .recipeList article {
-    background-color: #fff3e6;
+    background-color: #e9f0fb;
     padding: 20px 25px;
     margin-bottom: 25px;
-    border-left: 7px solid #d95d39;
+    border-left: 7px solid #3a6ea5;
     border-radius: 6px;
-    box-shadow: 0 2px 8px rgba(210, 140, 110, 0.2);
+    box-shadow: 0 2px 8px rgba(58, 110, 165, 0.15);
 }
 
 .recipeList article h3 {
     margin-top: 0;
     margin-bottom: 12px;
     font-size: 1.5em;
+    color: #1b2c44;
 }
 
 .recipeList article p {
     margin: 6px 0;
     font-size: 1em;
-    color: #6a584e;
+    color: #4a5766;
 }
 
 /* Footer */
 footer {
     text-align: center;
-    color: #a7856b;
+    color: #7a8a9e;
     margin-bottom: 30px;
     font-size: 14px;
     font-style: italic;
     letter-spacing: 0.03em;
 }
 
-
+/* Responsive tweaks for smaller screens */
+@media (max-width: 480px) {
+    body {
+        padding: 0 10px;
+    }
+    main {
+        max-width: 100%;
+        margin: 0 auto 40px auto;
+        padding: 0 10px;
+    }
+    header h1 {
+        font-size: 2em;
+    }
+    form button {
+        width: 100%;
+        padding: 12px 0;
+    }
+}
