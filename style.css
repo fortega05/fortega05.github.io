@@ -153,11 +153,12 @@ form button:hover {
 /* Footer */
 footer {
     text-align: center;
-    color: #7a8a9e;
+    color: #FFFFFF;
     margin-bottom: 30px;
     font-size: 14px;
     font-style: italic;
     letter-spacing: 0.03em;
+    background-color: #3a6ea5;
 }
 
 /* Responsive tweaks for smaller screens */
