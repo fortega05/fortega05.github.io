@@ -1,92 +1,72 @@
-// Helper to get users from localStorage
-function getUsers() {
-    return JSON.parse(localStorage.getItem("users")) || [];
-}
+// Add + display recipes without login system
 
-// Helper to save users to localStorage
-function saveUsers(users) {
-    localStorage.setItem("users", JSON.stringify(users));
-}
-
-// Show logged-in info in nav
-function showLoggedInUser() {
-    const loggedInInfo = document.getElementById("loggedInInfo");
-    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    if (loggedInInfo) {
-        if (currentUser) {
-            loggedInInfo.innerHTML = `
-                Logged in as <strong>${currentUser.username}</strong> 
-                <button id="logoutBtn">Logout</button>
-            `;
-            document.getElementById("logoutBtn").addEventListener("click", () => {
-                localStorage.removeItem("currentUser");
-                location.reload();
-            });
-        } else {
-            loggedInInfo.innerHTML = "";
-        }
-    }
-}
-
-// SIGN UP
-const signupForm = document.getElementById("signupForm");
-if (signupForm) {
-    signupForm.addEventListener("submit", e => {
+document.querySelectorAll(".recipeForm").forEach(form => {
+    form.addEventListener("submit", e => {
         e.preventDefault();
 
-        const email = document.getElementById("signupEmail").value.trim().toLowerCase();
-        const username = document.getElementById("signupUsername").value.trim();
-        const password = document.getElementById("signupPassword").value;
+        const category = form.dataset.category;
+        const inputs = form.querySelectorAll("input, textarea");
 
-        if (!email || !username || !password) return;
+        const newRecipe = {
+            name: inputs[0].value.trim(),
+            ingredients: inputs[1].value.trim(),
+            instructions: inputs[2].value.trim(),
+            category: category
+        };
 
-        let users = getUsers();
-
-        if (users.some(u => u.username.toLowerCase() === username.toLowerCase())) {
-            document.getElementById("signupMessage").textContent = "Username already exists";
+        if (!newRecipe.name || !newRecipe.ingredients || !newRecipe.instructions) {
+            alert("Please fill out all fields.");
             return;
         }
-        if (users.some(u => u.email === email)) {
-            document.getElementById("signupMessage").textContent = "Email already registered";
-            return;
-        }
 
-        users.push({ email, username, password });
-        saveUsers(users);
+        let recipes = JSON.parse(localStorage.getItem("recipes")) || [];
 
-        document.getElementById("signupMessage").textContent = "Account created! You can now log in.";
-        signupForm.reset();
+        // Add new recipe
+        recipes.push(newRecipe);
+
+        // Save updated recipes list
+        localStorage.setItem("recipes", JSON.stringify(recipes));
+
+        // Clear form
+        form.reset();
+
+        // Reload recipes displayed on page
+        loadRecipes();
     });
-}
-
-// LOGIN
-const loginForm = document.getElementById("loginForm");
-if (loginForm) {
-    loginForm.addEventListener("submit", e => {
-        e.preventDefault();
-
-        const username = document.getElementById("loginUsername").value.trim();
-        const password = document.getElementById("loginPassword").value;
-
-        let users = getUsers();
-
-        const user = users.find(u => u.username.toLowerCase() === username.toLowerCase() && u.password === password);
-
-        if (!user) {
-            document.getElementById("loginMessage").textContent = "Invalid username or password";
-            return;
-        }
-
-        localStorage.setItem("currentUser", JSON.stringify({ username: user.username, email: user.email }));
-
-        document.getElementById("loginMessage").textContent = "Logged in successfully!";
-        loginForm.reset();
-
-        showLoggedInUser();
-    });
-}
-
-// On page load, show logged-in user info
-document.addEventListener("DOMContentLoaded", () => {
-    showLoggedInUser();
 });
+
+function loadRecipes() {
+    const recipes = JSON.parse(localStorage.getItem("recipes")) || [];
+
+    document.querySelectorAll(".recipeList").forEach(list => {
+        const category = list.dataset.category;
+
+        // Start with only hardcoded recipes (clear previously dynamically added ones)
+        // We'll keep the hardcoded examples in HTML, so only append user-added below
+        // To avoid duplication, remove all except hardcoded articles, then append user ones
+
+        // Strategy: Keep only hardcoded (the first <article>) and remove any after it
+        const articles = list.querySelectorAll("article");
+        if (articles.length > 1) {
+            for (let i = articles.length - 1; i >= 1; i--) {
+                articles[i].remove();
+            }
+        }
+
+        // Append recipes from localStorage for this category
+        recipes.filter(r => r.category === category).forEach(r => {
+            // Skip duplicates if recipe matches hardcoded by name? Let's just append anyway
+
+            const article = document.createElement("article");
+            article.innerHTML = `
+                <h3>${r.name}</h3>
+                <p><strong>Ingredients:</strong> ${r.ingredients}</p>
+                <p><strong>Instructions:</strong> ${r.instructions}</p>
+            `;
+            list.appendChild(article);
+        });
+    });
+}
+
+// Load recipes on page load
+window.addEventListener("DOMContentLoaded", loadRecipes);
